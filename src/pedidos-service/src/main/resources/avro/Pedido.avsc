@@ -1,0 +1,23 @@
+{
+  "namespace": "com.poc.kafka_pedidos.outbound.kafka.avro",
+  "type": "record",
+  "name": "PedidoAvro",
+  "fields": [
+    {
+      "name": "id",
+      "type": "string"
+    },
+    {
+      "name": "usuarioId",
+      "type": "long"
+    },
+    {
+      "name": "produtoId",
+      "type": "long"
+    },
+    {
+      "name": "quantidade",
+      "type": "int"
+    }
+  ]
+}
