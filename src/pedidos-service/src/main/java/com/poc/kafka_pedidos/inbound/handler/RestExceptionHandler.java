@@ -9,6 +9,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.List;
+import java.util.concurrent.CompletionException;
+
 @Slf4j
 @RestControllerAdvice
 @RequiredArgsConstructor
@@ -24,6 +27,15 @@ public class RestExceptionHandler {
 			.stream()
 			.map(fieldError -> new ErrorDTO(fieldError.getDefaultMessage()))
 			.toList();
+		return ResponseEntity.status(status).body(new ResponseErrorDTO(status, message, errors));
+	}
+
+	@ExceptionHandler(CompletionException.class)
+	public ResponseEntity<ResponseErrorDTO> handleCompletionException(CompletionException ex) {
+		var message = "Erro ao processar entidade.";
+		var status = 400;
+		log.error(message, ex);
+		var errors = List.of(new ErrorDTO("Erro ao processar entidade."));
 		return ResponseEntity.status(status).body(new ResponseErrorDTO(status, message, errors));
 	}
 

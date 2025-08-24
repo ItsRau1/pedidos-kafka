@@ -11,8 +11,6 @@ public class KafkaPedidoGatewayFaker implements PedidoGateway {
 
 	@Override
 	public void send(Pedido pedido) {
-		// TODO: Investigar pq o faker não está sendo chamado no momento dos testes e sim
-		// o bean KafkaPedidoGateway
 	}
 
 }
