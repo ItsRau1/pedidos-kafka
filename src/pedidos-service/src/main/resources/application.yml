@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: kafka-pedidos
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:29092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+    properties:
+      schema.registry.url: ${SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL:http://localhost:8081}
+      auto.register.schemas: true
+
+kafka:
+  topic:
+    pedidos: pedidos
