@@ -17,6 +17,7 @@ public class ReceberPedido {
 
 	public void execute(Pedido pedido) {
 		log.info("{}Recebendo pedido: [PEDIDO: {}]", LOG_PREFIX, pedido);
+		pedido.gerarId();
 		pedidoGateway.send(pedido);
 	}
 
