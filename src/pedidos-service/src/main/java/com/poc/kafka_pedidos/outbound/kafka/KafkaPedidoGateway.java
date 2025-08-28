@@ -53,6 +53,7 @@ public class KafkaPedidoGateway implements PedidoGateway {
         // TODO: Perguntar para um IA sobre quais possíveis erros podem ocorrer em uma conexão com o KAFKA (Passando todo o contexto de ser uma api e usar ExceptionHandler)
         // TODO: Ler artigo gerado pelo Gemini sobre exceções no completableFuture
         // TODO: Investigar pq o faker não está sendo chamado no momento dos testes e sim o bean KafkaPedidoGateway
+		// TODO: Implementar Swagger
 
         //@formatter:on
 	}
