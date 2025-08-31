@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: kafka-fraude
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:29092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+    consumer:
+      group-id: pedidos-processor-group
+#      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+    properties:
+      schema:
+        registry:
+          url: ${SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL:http://localhost:8081}
+      specific:
+        avro:
+          reader: true
+
+server:
+  port: 8082
+
+kafka:
+  topic:
+    pedidos: pedidos
