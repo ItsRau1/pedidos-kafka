@@ -3,6 +3,7 @@ package com.poc.pedidos_service.outbound.kafka;
 import com.poc.pedidos_service.core.domain.entity.Pedido;
 import com.poc.pedidos_service.core.gateway.PedidoGateway;
 import com.poc.kafka_schemas.avro.PedidoAvro;
+import com.poc.pedidos_service.outbound.kafka.mappers.PedidoMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,18 +24,15 @@ public class KafkaPedidoGateway implements PedidoGateway {
 
 	private final KafkaTemplate<String, PedidoAvro> kafkaTemplate;
 
+    private final PedidoMapper pedidoMapper;
+
 	@Value("${kafka.topic.pedidos}")
 	private String topicPedidos;
 
 	@Override
 	public void send(Pedido pedido) {
 		log.info("{}Enviando pedido para topico: [PEDIDO: {}] [TOPICO: {}]", LOG_PREFIX, pedido, topicPedidos);
-		PedidoAvro pedidoAvro = PedidoAvro.newBuilder()
-			.setId(pedido.getId())
-			.setUsuarioId(pedido.getUsuarioId())
-			.setProdutoId(pedido.getProdutoId())
-			.setQuantidade(pedido.getQuantidade())
-			.build();
+		PedidoAvro pedidoAvro = pedidoMapper.toAvro(pedido);
 
 		CompletableFuture
 			.supplyAsync(() -> kafkaTemplate.send(topicPedidos, pedido.getUsuarioId().toString(), pedidoAvro))
@@ -43,8 +41,6 @@ public class KafkaPedidoGateway implements PedidoGateway {
 			.join();
 		//@formatter:off
 
-        // TODO: Verificar possível integração entre mapStruct e Avro
-        // TODO: Perguntar para um IA sobre quais possíveis erros podem ocorrer em uma conexão com o KAFKA (Passando todo o contexto de ser uma api e usar ExceptionHandler)
         // TODO: Ler artigo gerado pelo Gemini sobre exceções no completableFuture
 		// TODO: Implementar Swagger
 

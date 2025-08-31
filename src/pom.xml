@@ -29,6 +29,7 @@
         <kafka.avro.serializer.version>8.0.0</kafka.avro.serializer.version>
         <hibernate.validator.version>9.0.1.Final</hibernate.validator.version>
         <rest-assured.version>5.5.6</rest-assured.version>
+        <org.mapstruct.version>1.6.3</org.mapstruct.version>
     </properties>
 
     <modules>
