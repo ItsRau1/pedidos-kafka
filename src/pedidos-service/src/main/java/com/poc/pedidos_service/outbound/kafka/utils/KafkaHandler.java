@@ -9,14 +9,14 @@ import java.util.function.BiFunction;
 @Data
 public class KafkaHandler {
 
-    public static <T> BiFunction<T, Throwable, T> handle(String errorMessage) {
-        return (res, ex) -> {
-            if (ex == null) {
-                return res;
-            }
-            log.error(errorMessage, ex);
-            throw new CompletionException(ex);
-        };
-    }
+	public static <T> BiFunction<T, Throwable, T> handle(String errorMessage) {
+		return (res, ex) -> {
+			if (ex == null) {
+				return res;
+			}
+			log.error(errorMessage, ex);
+			throw new CompletionException(ex);
+		};
+	}
 
 }
