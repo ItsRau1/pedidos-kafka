@@ -1,5 +1,5 @@
 {
-  "namespace": "com.poc.kafka_pedidos.outbound.kafka.avro",
+  "namespace": "com.poc.kafka_schemas.avro",
   "type": "record",
   "name": "PedidoAvro",
   "fields": [
