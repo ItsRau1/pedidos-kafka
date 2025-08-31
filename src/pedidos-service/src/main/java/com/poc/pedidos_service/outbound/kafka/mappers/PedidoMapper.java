@@ -7,6 +7,6 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface PedidoMapper {
 
-    PedidoAvro toAvro(Pedido pedido);
+	PedidoAvro toAvro(Pedido pedido);
 
 }

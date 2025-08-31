@@ -24,7 +24,7 @@ public class KafkaPedidoGateway implements PedidoGateway {
 
 	private final KafkaTemplate<String, PedidoAvro> kafkaTemplate;
 
-    private final PedidoMapper pedidoMapper;
+	private final PedidoMapper pedidoMapper;
 
 	@Value("${kafka.topic.pedidos}")
 	private String topicPedidos;
@@ -36,15 +36,9 @@ public class KafkaPedidoGateway implements PedidoGateway {
 
 		CompletableFuture
 			.supplyAsync(() -> kafkaTemplate.send(topicPedidos, pedido.getUsuarioId().toString(), pedidoAvro))
-			.thenAccept(result -> log.info("{}Mensagem enviada com sucesso! [TOPICO: {}]", LOG_PREFIX, topicPedidos))
 			.handle(KafkaHandler.handle("%sFalha ao enviar mensagem".formatted(LOG_PREFIX)))
+			.thenAccept(result -> log.info("{}Mensagem enviada com sucesso! [TOPICO: {}]", LOG_PREFIX, topicPedidos))
 			.join();
-		//@formatter:off
-
-        // TODO: Ler artigo gerado pelo Gemini sobre exceções no completableFuture
-		// TODO: Implementar Swagger
-
-        //@formatter:on
 	}
 
 }
