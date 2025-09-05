@@ -1,6 +1,8 @@
 package com.poc.fraude_service.inbound.listener;
 
+import com.poc.fraude_service.inbound.facade.ProcessarPedidoFacade;
 import com.poc.kafka_schemas.avro.PedidoAvro;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.KafkaHeaders;
@@ -10,19 +12,19 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class PedidosListener {
+
+    private final String LOG_PREFIX = "[PEDIDOS-LISTENER] - ";
+
+    ProcessarPedidoFacade processarPedidoFacade;
 
     @KafkaListener(topics = "${kafka.topic.pedidos}", groupId = "${spring.kafka.consumer.group-id}")
     public void processarPedido(@Payload PedidoAvro pedido,
                                 @Header(KafkaHeaders.RECEIVED_PARTITION) int partition,
                                 @Header(KafkaHeaders.OFFSET) long offset) {
-
-        log.info("Mensagem recebida do tópico de pedidos!");
-        log.info("Processando pedido ID: {}", pedido.getId());
-        log.info("Usuario ID: {}", pedido.getUsuarioId());
-        log.info("ProdutoId: {}", pedido.getProdutoId());
-        log.info("Quantidade: {}", pedido.getQuantidade());
-        log.info("Partição: {}, Offset: {}", partition, offset);
+        log.info("{}Iniciando processamento de pedido. [PEDIDO: {}] [PARTITION: {}] [OFFSET: {}]", LOG_PREFIX, pedido.getId(), partition, offset);
+        processarPedidoFacade.processarPedido(pedido);
     }
 
 }
