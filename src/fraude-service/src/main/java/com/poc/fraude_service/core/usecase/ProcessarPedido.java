@@ -1,12 +1,10 @@
 package com.poc.fraude_service.core.usecase;
 
 import com.poc.fraude_service.core.domain.entity.Pedido;
+import com.poc.fraude_service.core.gateway.PedidoGateway;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Slf4j
 @Component
@@ -15,22 +13,23 @@ public class ProcessarPedido {
 
     private final String LOG_PREFIX = "[PROCESSAR-PEDIDO] - ";
 
+    private final PedidoGateway pedidoGateway;
+
     public void execute(Pedido pedido) {
         log.info("{}Iniciando processamento de pedido. [PEDIDO: {}]", LOG_PREFIX, pedido.getId());
         var isFraude = verificarFraude(pedido);
         if(isFraude) {
             log.info("{}Pedido identificado como fraude. [PEDIDO: {}]", LOG_PREFIX, pedido.getId());
-            // TODO: Adicionar envio para fila pedidosInvalidos
+            pedidoGateway.send(pedido, false);
+            return;
         }
         log.info("{}Pedido valido. [PEDIDO: {}]", LOG_PREFIX, pedido.getId());
-        // TODO: Adicionar envio para fila pedidosValidos
-        // TODO: Adicionar testes
+        pedidoGateway.send(pedido, true);
     }
 
     private Boolean verificarFraude(Pedido pedido) {
-        log.info("{}Verificando se pedido é fraude. [PEDIDO: {}]", LOG_PREFIX, pedido.getId());
-        Objects.requireNonNull(pedido.getId());
-        return isPar(LocalDateTime.now().getNano());
+        log.info("{}Verificando se pedido é fraude. [PEDIDO: {}] [TIMESTAMP: {}] [NANO: {}]", LOG_PREFIX, pedido.getId(), pedido.getTimestamp(), pedido.getTimestamp().getNano());
+        return !isPar(pedido.getTimestamp().getNano());
     }
 
     private Boolean isPar(int value) {

@@ -1,6 +1,6 @@
 spring:
   application:
-    name: kafka-fraude
+    name: fraude-service
   kafka:
     bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:29092}
     producer:
@@ -8,7 +8,6 @@ spring:
       value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
     consumer:
       group-id: pedidos-processor-group
-#      auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
     properties:
@@ -25,3 +24,5 @@ server:
 kafka:
   topic:
     pedidos: pedidos
+    pedidos-validos: pedidosValidos
+    pedidos-fraudes: pedidosFraudes

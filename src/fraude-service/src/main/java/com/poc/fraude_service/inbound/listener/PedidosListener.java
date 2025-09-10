@@ -9,15 +9,16 @@ import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 @Slf4j
-@Component
+@Controller
 @RequiredArgsConstructor
 public class PedidosListener {
 
     private final String LOG_PREFIX = "[PEDIDOS-LISTENER] - ";
 
-    ProcessarPedidoFacade processarPedidoFacade;
+    final ProcessarPedidoFacade processarPedidoFacade;
 
     @KafkaListener(topics = "${kafka.topic.pedidos}", groupId = "${spring.kafka.consumer.group-id}")
     public void processarPedido(@Payload PedidoAvro pedido,

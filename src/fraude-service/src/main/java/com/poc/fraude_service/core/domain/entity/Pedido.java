@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,5 +20,7 @@ public class Pedido {
     private Long produtoId;
 
     private int quantidade;
+
+    private LocalDateTime timestamp;
 
 }
