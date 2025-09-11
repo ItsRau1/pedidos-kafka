@@ -13,14 +13,14 @@ import java.time.LocalDateTime;
 @Builder
 public class Pedido {
 
-    private CharSequence id;
+	private CharSequence id;
 
-    private Long usuarioId;
+	private Long usuarioId;
 
-    private Long produtoId;
+	private Long produtoId;
 
-    private int quantidade;
+	private int quantidade;
 
-    private LocalDateTime timestamp;
+	private LocalDateTime timestamp;
 
 }

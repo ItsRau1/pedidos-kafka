@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
@@ -20,29 +22,27 @@ import java.util.concurrent.CompletableFuture;
 @RequiredArgsConstructor
 public class KafkaPedidoGateway implements PedidoGateway {
 
-    private static final String LOG_PREFIX = "[KAFKA_PEDIDO_GATEWAY] ";
+	private static final String LOG_PREFIX = "[KAFKA_PEDIDO_GATEWAY] ";
 
-    private final KafkaTemplate<String, PedidoAvro> kafkaTemplate;
+	private final KafkaTemplate<String, PedidoAvro> kafkaTemplate;
 
-    private final PedidoKafkaMapper pedidoKafkaMapper;
+	private final PedidoKafkaMapper pedidoKafkaMapper;
 
-    @Value("${kafka.topic.pedidos-validos}")
-    private String topicPedidosValido;
+	@Value("${kafka.topic.pedidos-validos}")
+	private String topicPedidosValido;
 
-    @Value("${kafka.topic.pedidos-fraudes}")
-    private String topicPedidosFraude;
+	@Value("${kafka.topic.pedidos-fraudes}")
+	private String topicPedidosFraude;
 
-
-    @Override
-    public void send(Pedido pedido, Boolean valido) {
-        String topico = valido ? topicPedidosValido : topicPedidosFraude;
-        log.info("{}Enviando pedido para topico kafka. [PEDIDO: {}] [TOPICO: {}]", LOG_PREFIX, pedido.getId(), topico);
-        PedidoAvro pedidoAvro = pedidoKafkaMapper.toAvro(pedido);
-        CompletableFuture
-                .supplyAsync(() -> kafkaTemplate.send(topico, pedido.getUsuarioId().toString(), pedidoAvro))
-                .handle(KafkaHandler.handle("%sFalha ao enviar mensagem".formatted(LOG_PREFIX)))
-                .thenAccept(result -> log.info("{}Mensagem enviada com sucesso! [TOPICO: {}]", LOG_PREFIX, topico))
-                .join();
-    }
+	@Override
+	public void send(Pedido pedido, Boolean valido) {
+		String topico = valido ? topicPedidosValido : topicPedidosFraude;
+		log.info("{}Enviando pedido para topico kafka. [PEDIDO: {}] [TOPICO: {}]", LOG_PREFIX, pedido.getId(), topico);
+		PedidoAvro pedidoAvro = pedidoKafkaMapper.toAvro(pedido);
+		CompletableFuture.supplyAsync(() -> kafkaTemplate.send(topico, pedido.getUsuarioId().toString(), pedidoAvro))
+			.handle(KafkaHandler.handle("%sFalha ao enviar mensagem".formatted(LOG_PREFIX)))
+			.thenAccept(result -> log.info("{}Mensagem enviada com sucesso! [TOPICO: {}]", LOG_PREFIX, topico))
+			.join();
+	}
 
 }

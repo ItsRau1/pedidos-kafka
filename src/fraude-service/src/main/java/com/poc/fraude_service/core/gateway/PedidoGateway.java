@@ -4,6 +4,6 @@ import com.poc.fraude_service.core.domain.entity.Pedido;
 
 public interface PedidoGateway {
 
-    void send(Pedido pedido, Boolean valido);
+	void send(Pedido pedido, Boolean valido);
 
 }

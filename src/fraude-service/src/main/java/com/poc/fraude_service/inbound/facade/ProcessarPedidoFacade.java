@@ -12,15 +12,15 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ProcessarPedidoFacade {
 
-    private final String LOG_PREFIX = "[PROCESSAR-PEDIDO-FACADE] - ";
+	private final String LOG_PREFIX = "[PROCESSAR-PEDIDO-FACADE] - ";
 
-    private final PedidoMapper pedidoMapper;
+	private final PedidoMapper pedidoMapper;
 
-    private final ProcessarPedido processarPedido;
+	private final ProcessarPedido processarPedido;
 
-    public void processarPedido(PedidoAvro pedidoAvro) {
-        log.info("{}Inciando processamento de pedido. [PEDIDO: {}]", LOG_PREFIX, pedidoAvro.getId());
-        processarPedido.execute(pedidoMapper.toEntity(pedidoAvro));
-    }
+	public void processarPedido(PedidoAvro pedidoAvro) {
+		log.info("{}Inciando processamento de pedido. [PEDIDO: {}]", LOG_PREFIX, pedidoAvro.getId());
+		processarPedido.execute(pedidoMapper.toEntity(pedidoAvro));
+	}
 
 }

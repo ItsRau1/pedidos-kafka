@@ -16,16 +16,16 @@ import org.springframework.stereotype.Controller;
 @RequiredArgsConstructor
 public class PedidosListener {
 
-    private final String LOG_PREFIX = "[PEDIDOS-LISTENER] - ";
+	private final String LOG_PREFIX = "[PEDIDOS-LISTENER] - ";
 
-    final ProcessarPedidoFacade processarPedidoFacade;
+	final ProcessarPedidoFacade processarPedidoFacade;
 
-    @KafkaListener(topics = "${kafka.topic.pedidos}", groupId = "${spring.kafka.consumer.group-id}")
-    public void processarPedido(@Payload PedidoAvro pedido,
-                                @Header(KafkaHeaders.RECEIVED_PARTITION) int partition,
-                                @Header(KafkaHeaders.OFFSET) long offset) {
-        log.info("{}Iniciando processamento de pedido. [PEDIDO: {}] [PARTITION: {}] [OFFSET: {}]", LOG_PREFIX, pedido.getId(), partition, offset);
-        processarPedidoFacade.processarPedido(pedido);
-    }
+	@KafkaListener(topics = "${kafka.topic.pedidos}", groupId = "${spring.kafka.consumer.group-id}")
+	public void processarPedido(@Payload PedidoAvro pedido, @Header(KafkaHeaders.RECEIVED_PARTITION) int partition,
+			@Header(KafkaHeaders.OFFSET) long offset) {
+		log.info("{}Iniciando processamento de pedido. [PEDIDO: {}] [PARTITION: {}] [OFFSET: {}]", LOG_PREFIX,
+				pedido.getId(), partition, offset);
+		processarPedidoFacade.processarPedido(pedido);
+	}
 
 }

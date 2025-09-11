@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 @Profile("test")
 public class KafkaPedidoGatewayFaker implements PedidoGateway {
 
-    @Override
-    public void send(Pedido pedido, Boolean valido) {
-    }
+	@Override
+	public void send(Pedido pedido, Boolean valido) {
+	}
 
 }

@@ -11,30 +11,30 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ProcessarPedido {
 
-    private final String LOG_PREFIX = "[PROCESSAR-PEDIDO] - ";
+	private final String LOG_PREFIX = "[PROCESSAR-PEDIDO] - ";
 
-    private final PedidoGateway pedidoGateway;
+	private final PedidoGateway pedidoGateway;
 
-    public void execute(Pedido pedido) {
-        log.info("{}Iniciando processamento de pedido. [PEDIDO: {}]", LOG_PREFIX, pedido.getId());
-        var isFraude = verificarFraude(pedido);
-        if(isFraude) {
-            log.info("{}Pedido identificado como fraude. [PEDIDO: {}]", LOG_PREFIX, pedido.getId());
-            pedidoGateway.send(pedido, false);
-            return;
-        }
-        log.info("{}Pedido valido. [PEDIDO: {}]", LOG_PREFIX, pedido.getId());
-        pedidoGateway.send(pedido, true);
-    }
+	public void execute(Pedido pedido) {
+		log.info("{}Iniciando processamento de pedido. [PEDIDO: {}]", LOG_PREFIX, pedido.getId());
+		var isFraude = verificarFraude(pedido);
+		if (isFraude) {
+			log.info("{}Pedido identificado como fraude. [PEDIDO: {}]", LOG_PREFIX, pedido.getId());
+			pedidoGateway.send(pedido, false);
+			return;
+		}
+		log.info("{}Pedido valido. [PEDIDO: {}]", LOG_PREFIX, pedido.getId());
+		pedidoGateway.send(pedido, true);
+	}
 
-    private Boolean verificarFraude(Pedido pedido) {
-        log.info("{}Verificando se pedido é fraude. [PEDIDO: {}] [TIMESTAMP: {}] [NANO: {}]", LOG_PREFIX, pedido.getId(), pedido.getTimestamp(), pedido.getTimestamp().getNano());
-        return !isPar(pedido.getTimestamp().getNano());
-    }
+	private Boolean verificarFraude(Pedido pedido) {
+		log.info("{}Verificando se pedido é fraude. [PEDIDO: {}] [TIMESTAMP: {}] [NANO: {}]", LOG_PREFIX,
+				pedido.getId(), pedido.getTimestamp(), pedido.getTimestamp().getNano());
+		return !isPar(pedido.getTimestamp().getNano());
+	}
 
-    private Boolean isPar(int value) {
-        return value % 2 == 0;
-    }
+	private Boolean isPar(int value) {
+		return value % 2 == 0;
+	}
 
 }
-

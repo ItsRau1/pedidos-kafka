@@ -17,49 +17,50 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class ProcessarPedidoTest {
 
-    @Mock
-    private PedidoGateway pedidoGateway;
+	@Mock
+	private PedidoGateway pedidoGateway;
 
-    @InjectMocks
-    private ProcessarPedido processarPedido;
+	@InjectMocks
+	private ProcessarPedido processarPedido;
 
-    private Pedido pedidoValido;
-    private Pedido pedidoFraudulento;
+	private Pedido pedidoValido;
 
-    @BeforeEach
-    void setUp() {
-        pedidoValido = Pedido.builder()
-                .id(UUID.randomUUID().toString())
-                .usuarioId(1L)
-                .produtoId(100L)
-                .quantidade(2)
-                .timestamp(LocalDateTime.now().withNano(2))
-                .build();
-        pedidoFraudulento = Pedido.builder()
-                .id(UUID.randomUUID().toString())
-                .usuarioId(2L)
-                .produtoId(200L)
-                .quantidade(5)
-                .timestamp(LocalDateTime.now().withNano(1))
-                .build();
-    }
+	private Pedido pedidoFraudulento;
 
-    @Test
-    void deveProcessarPedidoValidoComSucesso() {
-        processarPedido.execute(pedidoValido);
-        verify(pedidoGateway, times(1)).send(eq(pedidoValido), eq(true));
-    }
+	@BeforeEach
+	void setUp() {
+		pedidoValido = Pedido.builder()
+			.id(UUID.randomUUID().toString())
+			.usuarioId(1L)
+			.produtoId(100L)
+			.quantidade(2)
+			.timestamp(LocalDateTime.now().withNano(2))
+			.build();
+		pedidoFraudulento = Pedido.builder()
+			.id(UUID.randomUUID().toString())
+			.usuarioId(2L)
+			.produtoId(200L)
+			.quantidade(5)
+			.timestamp(LocalDateTime.now().withNano(1))
+			.build();
+	}
 
-    @Test
-    void deveIdentificarPedidoComoFraude() {
-        processarPedido.execute(pedidoFraudulento);
-        verify(pedidoGateway, times(1)).send(eq(pedidoFraudulento), eq(false));
-    }
+	@Test
+	void deveProcessarPedidoValidoComSucesso() {
+		processarPedido.execute(pedidoValido);
+		verify(pedidoGateway, times(1)).send(eq(pedidoValido), eq(true));
+	}
 
-    @Test
-    void deveChamarGatewayApenasUmaVez() {
-        processarPedido.execute(pedidoValido);
-        verify(pedidoGateway, times(1)).send(any(Pedido.class), anyBoolean());
-    }
+	@Test
+	void deveIdentificarPedidoComoFraude() {
+		processarPedido.execute(pedidoFraudulento);
+		verify(pedidoGateway, times(1)).send(eq(pedidoFraudulento), eq(false));
+	}
+
+	@Test
+	void deveChamarGatewayApenasUmaVez() {
+		processarPedido.execute(pedidoValido);
+		verify(pedidoGateway, times(1)).send(any(Pedido.class), anyBoolean());
+	}
 
 }
