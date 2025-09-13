@@ -28,9 +28,8 @@ public class ProcessarPedido {
 	}
 
 	private Boolean verificarFraude(Pedido pedido) {
-		log.info("{}Verificando se pedido é fraude. [PEDIDO: {}] [TIMESTAMP: {}] [NANO: {}]", LOG_PREFIX,
-				pedido.getId(), pedido.getTimestamp(), pedido.getTimestamp().getNano());
-		return !isPar(pedido.getTimestamp().getNano());
+		log.info("{}Verificando se pedido é fraude. [PEDIDO: {}]", LOG_PREFIX, pedido.getId());
+		return !isPar(pedido.getTimestamp().getSecond());
 	}
 
 	private Boolean isPar(int value) {

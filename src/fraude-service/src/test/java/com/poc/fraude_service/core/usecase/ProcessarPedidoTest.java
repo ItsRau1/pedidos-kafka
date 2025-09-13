@@ -34,14 +34,14 @@ class ProcessarPedidoTest {
 			.usuarioId(1L)
 			.produtoId(100L)
 			.quantidade(2)
-			.timestamp(LocalDateTime.now().withNano(2))
+			.timestamp(LocalDateTime.now().withSecond(2))
 			.build();
 		pedidoFraudulento = Pedido.builder()
 			.id(UUID.randomUUID().toString())
 			.usuarioId(2L)
 			.produtoId(200L)
 			.quantidade(5)
-			.timestamp(LocalDateTime.now().withNano(1))
+			.timestamp(LocalDateTime.now().withSecond(1))
 			.build();
 	}
 

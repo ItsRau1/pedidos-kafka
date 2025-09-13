@@ -4,6 +4,7 @@ import com.poc.fraude_service.inbound.facade.ProcessarPedidoFacade;
 import com.poc.kafka_schemas.avro.PedidoAvro;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 
 @Slf4j
 @Controller
+@Profile("!test")
 @RequiredArgsConstructor
 public class PedidosListener {
 
