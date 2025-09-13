@@ -7,7 +7,6 @@ import org.mapstruct.Mapping;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.TimeZone;
 
 @Mapper(componentModel = "spring", imports = { LocalDateTime.class, Instant.class, TimeZone.class })

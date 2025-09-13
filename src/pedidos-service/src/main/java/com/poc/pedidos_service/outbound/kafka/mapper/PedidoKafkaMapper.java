@@ -1,7 +1,7 @@
-package com.poc.fraude_service.outbound.kafka.mappers;
+package com.poc.pedidos_service.outbound.kafka.mapper;
 
-import com.poc.fraude_service.core.domain.entity.Pedido;
 import com.poc.kafka_schemas.avro.PedidoAvro;
+import com.poc.pedidos_service.core.domain.entity.Pedido;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

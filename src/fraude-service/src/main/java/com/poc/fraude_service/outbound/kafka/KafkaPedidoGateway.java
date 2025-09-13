@@ -2,23 +2,19 @@ package com.poc.fraude_service.outbound.kafka;
 
 import com.poc.fraude_service.core.domain.entity.Pedido;
 import com.poc.fraude_service.core.gateway.PedidoGateway;
-import com.poc.fraude_service.outbound.kafka.mappers.PedidoKafkaMapper;
+import com.poc.fraude_service.outbound.kafka.mapper.PedidoKafkaMapper;
 import com.poc.fraude_service.outbound.kafka.utils.KafkaHandler;
 import com.poc.kafka_schemas.avro.PedidoAvro;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Component
-@Profile("!test")
 @RequiredArgsConstructor
 public class KafkaPedidoGateway implements PedidoGateway {
 

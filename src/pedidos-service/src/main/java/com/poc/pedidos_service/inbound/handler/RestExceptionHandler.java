@@ -35,35 +35,8 @@ public class RestExceptionHandler {
 
 	@ExceptionHandler(CompletionException.class)
 	public ResponseEntity<ResponseErrorDTO> handleCompletionException(CompletionException ex) {
-		var message = "Erro ao processar entidade.";
-		var status = 400;
-		log.error(message, ex);
-		var errors = List.of(new ErrorDTO(ex.getMessage()));
-		return ResponseEntity.status(status).body(new ResponseErrorDTO(status, message, errors));
-	}
-
-	@ExceptionHandler(KafkaException.class)
-	public ResponseEntity<ResponseErrorDTO> handleKafkaException(KafkaException ex) {
-		var message = "Erro ao se conectar a fila.";
-		var status = 500;
-		log.error(message, ex);
-		var errors = List.of(new ErrorDTO(ex.getMessage()));
-		return ResponseEntity.status(status).body(new ResponseErrorDTO(status, message, errors));
-	}
-
-	@ExceptionHandler(SerializationException.class)
-	public ResponseEntity<ResponseErrorDTO> handleSerializationException(SerializationException ex) {
-		var message = "Erro de serialização ao se conectar a fila.";
-		var status = 500;
-		log.error(message, ex);
-		var errors = List.of(new ErrorDTO(ex.getMessage()));
-		return ResponseEntity.status(status).body(new ResponseErrorDTO(status, message, errors));
-	}
-
-	@ExceptionHandler(TimeoutException.class)
-	public ResponseEntity<ResponseErrorDTO> handleTimeoutException(TimeoutException ex) {
-		var message = "Erro de timeout ao se conectar a fila.";
-		var status = 500;
+		var message = "Erro ao se conectar com a fila.";
+		var status = 502;
 		log.error(message, ex);
 		var errors = List.of(new ErrorDTO(ex.getMessage()));
 		return ResponseEntity.status(status).body(new ResponseErrorDTO(status, message, errors));

@@ -3,7 +3,7 @@ package com.poc.pedidos_service.outbound.kafka;
 import com.poc.pedidos_service.core.domain.entity.Pedido;
 import com.poc.pedidos_service.core.gateway.PedidoGateway;
 import com.poc.kafka_schemas.avro.PedidoAvro;
-import com.poc.pedidos_service.outbound.kafka.mappers.PedidoMapper;
+import com.poc.pedidos_service.outbound.kafka.mapper.PedidoKafkaMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +16,7 @@ import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Component
-@Profile("!test")
+@Profile("!integration")
 @RequiredArgsConstructor
 public class KafkaPedidoGateway implements PedidoGateway {
 
@@ -24,7 +24,7 @@ public class KafkaPedidoGateway implements PedidoGateway {
 
 	private final KafkaTemplate<String, PedidoAvro> kafkaTemplate;
 
-	private final PedidoMapper pedidoMapper;
+	private final PedidoKafkaMapper pedidoKafkaMapper;
 
 	@Value("${kafka.topic.pedidos}")
 	private String topicPedidos;
@@ -32,7 +32,7 @@ public class KafkaPedidoGateway implements PedidoGateway {
 	@Override
 	public void send(Pedido pedido) {
 		log.info("{}Enviando pedido para topico: [PEDIDO: {}] [TOPICO: {}]", LOG_PREFIX, pedido, topicPedidos);
-		PedidoAvro pedidoAvro = pedidoMapper.toAvro(pedido);
+		PedidoAvro pedidoAvro = pedidoKafkaMapper.toAvro(pedido);
 
 		CompletableFuture
 			.supplyAsync(() -> kafkaTemplate.send(topicPedidos, pedido.getUsuarioId().toString(), pedidoAvro))
