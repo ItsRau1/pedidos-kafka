@@ -12,7 +12,7 @@ Apesar da simulação de um fluxo de microsserviços, optou-se por uma abordagem
 
 A principal vantagem dessa abordagem neste contexto é a facilidade de compartilhamento do módulo de schemas Avro (`schemas-service`) entre os outros serviços, sem a necessidade de um CI/CD complexo ou um registro de schemas em um ambiente de desenvolvimento local.
 
-Todos os módulos foram desenvolvidos utilizando **Arquitetura Hexagonal**, o que promove um baixo acoplamento e uma clara separação de responsabilidades entre as camadas de `inbound` (entrada), `core` (regras de negócio) e `outbound` (saída).
+Todos os módulos foram desenvolvidos utilizando **Arquitetura Limpa**, o que promove um baixo acoplamento e uma clara separação de responsabilidades entre as camadas de `inbound` (entrada), `core` (regras de negócio) e `outbound` (saída).
 
 ### Módulos
 
