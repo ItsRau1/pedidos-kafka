@@ -13,9 +13,9 @@ public class KafkaPedidoGatewayFaker implements PedidoGateway {
 
 	@Override
 	public void send(Pedido pedido) {
-        if (pedido.getUsuarioId().equals(98789L)) {
-            throw new CompletionException(new RuntimeException("Erro ao enviar pedido para fila"));
-        }
+		if (pedido.getUsuarioId().equals(98789L)) {
+			throw new CompletionException(new RuntimeException("Erro ao enviar pedido para fila"));
+		}
 	}
 
 }

@@ -115,28 +115,28 @@ public class PedidosControllerTest {
 		Assertions.assertEquals(expectedMessage, errorDTO.getDescription());
 	}
 
-    @Test
-    @DisplayName("Deve tratar exception no envio do peido para fila")
-    void deveTratarExceptionNoEnvioDoPedidoParaFila() {
-        String expectedMessage = "Erro ao se conectar com a fila.";
-        ReceberPedidoDTO receberPedidoDTO = ReceberPedidoDTO.builder()
-                .usuarioId(98789L)
-                .produtoId(1L)
-                .quantidade(1)
-                .build();
-        ResponseErrorDTO response = RestAssured.given()
-                .contentType("application/json")
-                .when()
-                .body(receberPedidoDTO)
-                .post(BASE_PATH.concat("/novo-pedido"))
-                .then()
-                .statusCode(502)
-                .extract()
-                .body()
-                .as(ResponseErrorDTO.class);
-        String message = response.getMessage();
-        Assertions.assertEquals(expectedMessage, message);
-    }
+	@Test
+	@DisplayName("Deve tratar exception no envio do peido para fila")
+	void deveTratarExceptionNoEnvioDoPedidoParaFila() {
+		String expectedMessage = "Erro ao se conectar com a fila.";
+		ReceberPedidoDTO receberPedidoDTO = ReceberPedidoDTO.builder()
+			.usuarioId(98789L)
+			.produtoId(1L)
+			.quantidade(1)
+			.build();
+		ResponseErrorDTO response = RestAssured.given()
+			.contentType("application/json")
+			.when()
+			.body(receberPedidoDTO)
+			.post(BASE_PATH.concat("/novo-pedido"))
+			.then()
+			.statusCode(502)
+			.extract()
+			.body()
+			.as(ResponseErrorDTO.class);
+		String message = response.getMessage();
+		Assertions.assertEquals(expectedMessage, message);
+	}
 
 	private static Stream<Arguments> usuarioIdInvalido() {
 		return Stream.of(Arguments.of("usuarioId deve ser informado.", null),

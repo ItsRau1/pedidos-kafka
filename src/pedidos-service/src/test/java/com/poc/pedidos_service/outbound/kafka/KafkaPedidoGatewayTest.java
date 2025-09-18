@@ -24,35 +24,34 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class KafkaPedidoGatewayTest {
 
-    @Mock
-    private KafkaTemplate<String, PedidoAvro> kafkaTemplate;
+	@Mock
+	private KafkaTemplate<String, PedidoAvro> kafkaTemplate;
 
-    @Mock
-    private PedidoKafkaMapper pedidoKafkaMapper;
+	@Mock
+	private PedidoKafkaMapper pedidoKafkaMapper;
 
-    @InjectMocks
-    private KafkaPedidoGateway kafkaPedidoGateway;
+	@InjectMocks
+	private KafkaPedidoGateway kafkaPedidoGateway;
 
-    @BeforeEach
-    void setUp() {
-        when(pedidoKafkaMapper.toAvro(any(Pedido.class))).thenReturn(new PedidoAvro());
-    }
+	@BeforeEach
+	void setUp() {
+		when(pedidoKafkaMapper.toAvro(any(Pedido.class))).thenReturn(new PedidoAvro());
+	}
 
-    @Test
-    @DisplayName("Deve ser possível enviar um pedido")
-    void deveSerPossivelEnviarPedidoValido() {
-        Pedido pedido = Pedido.builder().usuarioId(1L).build();
-        kafkaPedidoGateway.send(pedido);
-        verify(kafkaTemplate).send(any(), any(String.class), any(PedidoAvro.class));
-    }
+	@Test
+	@DisplayName("Deve ser possível enviar um pedido")
+	void deveSerPossivelEnviarPedidoValido() {
+		Pedido pedido = Pedido.builder().usuarioId(1L).build();
+		kafkaPedidoGateway.send(pedido);
+		verify(kafkaTemplate).send(any(), any(String.class), any(PedidoAvro.class));
+	}
 
-    @Test
-    @DisplayName("Deve disparar exception caso envio falhe")
-    void deveDispararExceptionCasoEnvioFalhe() {
-        when(kafkaTemplate.send(any(), any(String.class), any(PedidoAvro.class))).thenThrow(new RuntimeException());
-        Pedido pedido = Pedido.builder().usuarioId(1L).build();
-        assertThrows(CompletionException.class, () -> kafkaPedidoGateway.send(pedido));
-    }
-
+	@Test
+	@DisplayName("Deve disparar exception caso envio falhe")
+	void deveDispararExceptionCasoEnvioFalhe() {
+		when(kafkaTemplate.send(any(), any(String.class), any(PedidoAvro.class))).thenThrow(new RuntimeException());
+		Pedido pedido = Pedido.builder().usuarioId(1L).build();
+		assertThrows(CompletionException.class, () -> kafkaPedidoGateway.send(pedido));
+	}
 
 }
