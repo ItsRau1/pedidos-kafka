@@ -1,9 +1,10 @@
 package com.poc.pedidos_service.outbound.kafka;
 
+import com.poc.kafka_schemas.avro.PedidoAvro;
 import com.poc.pedidos_service.core.domain.entity.Pedido;
 import com.poc.pedidos_service.core.gateway.PedidoGateway;
-import com.poc.kafka_schemas.avro.PedidoAvro;
 import com.poc.pedidos_service.outbound.kafka.mapper.PedidoKafkaMapper;
+import com.poc.pedidos_service.outbound.kafka.utils.KafkaHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +12,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
-import com.poc.pedidos_service.outbound.kafka.utils.KafkaHandler;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j

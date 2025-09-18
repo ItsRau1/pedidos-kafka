@@ -21,7 +21,7 @@ class PedidoListenerTest {
 	ProcessarPedidoFacade processarPedidoFacade;
 
 	@InjectMocks
-	PedidosListener pedidoListener;
+	PedidoListener pedidoListener;
 
 	@BeforeEach
 	void setUp() {

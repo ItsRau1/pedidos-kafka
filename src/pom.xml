@@ -37,6 +37,7 @@
         <module>schemas-service</module>
         <module>pedidos-service</module>
         <module>fraude-service</module>
+        <module>notificacao-service</module>
     </modules>
 
     <dependencies>

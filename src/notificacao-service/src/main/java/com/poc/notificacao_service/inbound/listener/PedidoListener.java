@@ -1,7 +1,7 @@
-package com.poc.fraude_service.inbound.listener;
+package com.poc.notificacao_service.inbound.listener;
 
-import com.poc.fraude_service.inbound.facade.ProcessarPedidoFacade;
 import com.poc.kafka_schemas.avro.PedidoAvro;
+import com.poc.notificacao_service.inbound.facade.EnviarNotificacaoFacade;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
@@ -15,18 +15,18 @@ import org.springframework.stereotype.Controller;
 @Controller
 @Profile("!test")
 @RequiredArgsConstructor
-public class PedidosListener {
+public class PedidoListener {
 
 	private final String LOG_PREFIX = "[PEDIDOS-LISTENER] - ";
 
-	final ProcessarPedidoFacade processarPedidoFacade;
+	final EnviarNotificacaoFacade enviarNotificacaoFacade;
 
-	@KafkaListener(topics = "${kafka.topic.pedidos}", groupId = "${spring.kafka.consumer.group-id}")
-	public void processarPedido(@Payload PedidoAvro pedido, @Header(KafkaHeaders.RECEIVED_PARTITION) int partition,
+	@KafkaListener(topics = "${kafka.topic.pedidos-validos}", groupId = "${spring.kafka.consumer.group-id}")
+	public void enviarNotificacao(@Payload PedidoAvro pedido, @Header(KafkaHeaders.RECEIVED_PARTITION) int partition,
 			@Header(KafkaHeaders.OFFSET) long offset) {
-		log.info("{}Iniciando processamento de pedido. [PEDIDO: {}] [PARTITION: {}] [OFFSET: {}]", LOG_PREFIX,
+		log.info("{}Iniciando envio de notificacao para pedido. [PEDIDO: {}] [PARTITION: {}] [OFFSET: {}]", LOG_PREFIX,
 				pedido.getId(), partition, offset);
-		processarPedidoFacade.processarPedido(pedido);
+		enviarNotificacaoFacade.enviarNotificacao(pedido);
 	}
 
 }

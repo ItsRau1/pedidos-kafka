@@ -4,8 +4,6 @@ import com.poc.pedidos_service.inbound.dto.ErrorDTO;
 import com.poc.pedidos_service.inbound.dto.ResponseErrorDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.common.KafkaException;
-import org.apache.kafka.common.errors.SerializationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
 import java.util.concurrent.CompletionException;
-import java.util.concurrent.TimeoutException;
 
 @Slf4j
 @RestControllerAdvice
